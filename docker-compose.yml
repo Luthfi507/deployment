@@ -5,7 +5,6 @@ networks:
 volumes:
   prometheus-data:
   grafana-data:
-  mlflow-storage:
 
 services:
   prometheus:
@@ -45,13 +44,20 @@ services:
     restart: unless-stopped
 
   mlflow:
-    build:
-      context: mlflow-storage
+    image: ghcr.io/mlflow/mlflow:latest
     container_name: mlflow
     ports:
       - "5000:5000"
+    user: root
     volumes:
-      - mlflow-storage:/mlflow-storage
+      - ${PWD}/mlruns:/mlruns
     networks:
       - mlops-net
     restart: unless-stopped
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:////${PWD}/mlruns/mlflow.db
+      --default-artifact-root file://${PWD}/mlruns
+      --serve-artifacts
