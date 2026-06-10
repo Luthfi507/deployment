@@ -3,6 +3,7 @@
 .vscode/
 runs/
 artifacts/
+mlruns/
 *.pt
 
 # Byte-compiled / optimized / DLL files
