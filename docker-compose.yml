@@ -99,3 +99,9 @@ services:
               count: 1
               capabilities: [gpu]
               
+  mediapipe-builder:
+    image: mediapipe-dataset:latest
+    container_name: datasets-builder
+    ports:
+      - "1674:1674"
+    restart: unless-stopped
