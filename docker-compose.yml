@@ -5,6 +5,7 @@ networks:
 volumes:
   prometheus-data:
   grafana-data:
+  portainer-data:
 
 services:
   prometheus:
@@ -62,3 +63,17 @@ services:
       --backend-store-uri sqlite:////mlruns/mlflow.db
       --artifacts-destination /artifacts
       --serve-artifacts
+      --allowed-hosts "*"
+
+  portainer:
+      image: portainer/portainer-ce:latest
+      container_name: portainer
+      ports:
+        - "8000:8000"
+        - "9443:9443"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer-data:/data
+      networks:
+        - mlops-net
+      restart: unless-stopped
