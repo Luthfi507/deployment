@@ -77,3 +77,25 @@ services:
       networks:
         - mlops-net
       restart: unless-stopped
+
+  car-counting:
+    image: car-counting:latest
+    container_name: car-counting
+    env_file:
+      - .env
+    ports:
+      - "8002:8002"
+    networks:
+      - mlops-net
+    restart: unless-stopped
+
+    runtime: nvidia
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+              
