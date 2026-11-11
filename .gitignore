@@ -1,10 +1,10 @@
 # Custom Python gitignore template
 *.db
-models/
 runs/
 artifacts/
 mlruns/
 *.pt
+*.onnx
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
