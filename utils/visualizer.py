@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from typing import List
-from core.schemas import Detection
+from core.schemas import DetectionResult, Point
 
 class Visualizer:
     @staticmethod
@@ -10,7 +10,7 @@ class Visualizer:
         color = np.random.randint(0, 200, size=3).tolist()
         return tuple(color)
 
-    def draw_detection(self, image: np.ndarray, det: Detection):
+    def draw_detection(self, image: np.ndarray, det: DetectionResult):
         annotated_image = image.copy()
 
         x1 = det.bbox.x1
@@ -51,3 +51,18 @@ class Visualizer:
         )
 
         return annotated_image
+
+    def draw_segmentation(self, image: np.ndarray, points: List[Point]):
+        pts = np.asarray([[p.x, p.y] for p in points], dtype=np.float32)
+        pts = np.round(pts).astype(np.int32).reshape((-1, 1, 2))
+
+        mask = np.zeros(image.shape[:2], dtype=np.uint8)
+
+        cv2.fillPoly(mask, [pts], 255)
+
+        segmented = cv2.bitwise_and(
+            image,
+            image,
+            mask=mask
+        )
+        return segmented

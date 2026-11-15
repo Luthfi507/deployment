@@ -9,8 +9,11 @@ from ultralytics.models.sam import SAM3SemanticPredictor
 from ultralytics.engine.results import Results
 
 from .schemas import SegmentationResult, Point
+from utils import Visualizer
 
-class Segment:
+viz = Visualizer()
+
+class Segmentation:
     def __init__(
             self, 
             model_path: str = 'models/sam3.pt', 
@@ -56,10 +59,9 @@ class Segment:
         infer_time = time.time() - start
         logger.info(f"Image segmented successfylly in {infer_time}")
 
-        annotated_image = result.plot()
         masks = []
 
-        for mask in result.masks:
+        for i, mask in enumerate(result.masks):
             points = []
 
             for xy in mask.xy[0]:
@@ -67,14 +69,18 @@ class Segment:
                     Point(x=xy[0], y=xy[1])
                 )
 
+            if save:
+                annotated_image = viz.draw_segmentation(image, points)
+                filepath = self.output_dir / f"{start}_{i}.jpg"
+                cv2.imwrite(filepath, annotated_image)
+                cv2.imwrite(self.output_dir / f"{start}_{i}_orig.jpg", image)
+                print(f"Image saved in {filepath}")
+
             masks.append(
                 SegmentationResult(
                     class_name=text,
                     masks=points
                 )
             )
-
-        if save:
-            cv2.imwrite(self.output_dir / f"{start}.jpg", annotated_image)
 
         return masks
