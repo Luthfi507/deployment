@@ -7,14 +7,24 @@ class BoundingBox(BaseModel):
     x2: int
     y2: int
 
-class Detection(BaseModel):
+# Detection
+class DetectionResult(BaseModel):
     class_id: int
     class_name: str
     confidence: float
     bbox: BoundingBox
 
-class Classification(BaseModel):
-    pass
+# Classification
+class ClassificationResult(BaseModel):
+    class_id: int
+    class_name: str
+    confidence: float
 
-class Segmentation(BaseModel):
-    pass
+# Segmentation
+class Point(BaseModel):
+    x: float
+    y: float
+
+class SegmentationResult(BaseModel):
+    class_name: str
+    masks: List[Point]
