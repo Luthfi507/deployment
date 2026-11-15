@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from typing import Union
+from typing import Union, List
 from loguru import logger
 
 from ultralytics import YOLO
@@ -21,7 +21,7 @@ class Detection:
         self.conf_thresh = conf_thresh
         self.img_size = img_size
 
-    def format_result(self, results: Results):
+    def format_result(self, results: Results) -> List[DetectionResult]:
         detections = []
         names = self.model.names
 
@@ -48,7 +48,7 @@ class Detection:
 
         return detections
 
-    def predict(self, image: Union[str, np.ndarray]) -> DetectionResult:
+    def predict(self, image: Union[str, np.ndarray]):
         start_time = time.time()
         results = self.model(
             image,

@@ -1,17 +1,13 @@
 import time
 import numpy as np
 from pathlib import Path
-from typing import Union
+from typing import Union, List
 from loguru import logger
-import cv2
 
 from ultralytics.models.sam import SAM3SemanticPredictor
 from ultralytics.engine.results import Results
 
 from .schemas import SegmentationResult, Point
-from utils import Visualizer
-
-viz = Visualizer()
 
 class Segmentation:
     def __init__(
@@ -49,7 +45,7 @@ class Segmentation:
         infer_time = time.time() - start
         logger.success(f"Load segmentation model successfully in {infer_time}")
 
-    def predict(self, image: Union[str, np.ndarray], text: str, save: bool = False) -> SegmentationResult:
+    def predict(self, image: Union[str, np.ndarray], text: str,) -> List[SegmentationResult]:
         start = time.time()
         result: Results = self.model(
             image,
@@ -68,13 +64,6 @@ class Segmentation:
                 points.append(
                     Point(x=xy[0], y=xy[1])
                 )
-
-            if save:
-                annotated_image = viz.draw_segmentation(image, points)
-                filepath = self.output_dir / f"{start}_{i}.jpg"
-                cv2.imwrite(filepath, annotated_image)
-                cv2.imwrite(self.output_dir / f"{start}_{i}_orig.jpg", image)
-                print(f"Image saved in {filepath}")
 
             masks.append(
                 SegmentationResult(
