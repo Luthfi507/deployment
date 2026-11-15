@@ -18,7 +18,9 @@ class Visualizer:
         x2 = det.bbox.x2
         y2 = det.bbox.y2
 
-        label_text = f"{det.class_name} {det.confidence}"
+        _id = det.id if det.is_track else None
+
+        label_text = f"{det.class_name} ({_id}) {det.confidence:.2f}"
         color = Visualizer.get_color(det.class_id)
 
         cv2.rectangle(annotated_image, (x1, y1), (x2, y2), color, thickness=2)

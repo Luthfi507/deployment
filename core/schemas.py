@@ -13,6 +13,8 @@ class DetectionResult(BaseModel):
     class_name: str
     confidence: float
     bbox: BoundingBox
+    id: int
+    is_track: bool
 
 # Classification
 class ClassificationResult(BaseModel):
