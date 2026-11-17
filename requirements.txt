@@ -2,3 +2,6 @@ ultralytics
 mlflow
 loguru
 pydantic
+sentence-transformers[image]
+torchcodec>=0.16.0
+qdrant-client
