@@ -4,7 +4,7 @@ from typing import Union, Literal
 from ultralytics import YOLO
 from loguru import logger
 
-from .schemas import Detection, BoundingBox
+from .schemas import DetectionResult, BoundingBox
 
 class Inferencer:
     def __init__(self, model_path: str, device: str = 'cpu', conf_thresh: float = 0.0, task: Literal['detect', 'classify', 'segment'] = 'detect'):
@@ -13,7 +13,7 @@ class Inferencer:
         self.conf_thresh = conf_thresh
         self.task = task
 
-    def detection(self, image: Union[str, np.ndarray]) -> Detection:
+    def detection(self, image: Union[str, np.ndarray]) -> DetectionResult:
         start_time = time.time()
         results = self.model(
             image,
@@ -33,7 +33,7 @@ class Inferencer:
             conf = float(box.conf[0])
             cls_id = int(box.cls[0])
 
-            det = Detection(
+            det = DetectionResult(
                 class_id=cls_id,
                 class_name=names[cls_id],
                 confidence=round(conf, 4),
