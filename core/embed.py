@@ -3,7 +3,7 @@ from PIL import Image
 from loguru import logger
 
 from qdrant_client import QdrantClient
-from qdrant_client.models import VectorParams, Distance, PointStruct
+from qdrant_client.models import VectorParams, Distance, PointStruct, Filter
 
 from sentence_transformers import SentenceTransformer
 
@@ -62,16 +62,16 @@ class Embedding:
         )
         logger.success(f"{img_path} with ID {point_id} stored to Qdrant")
 
-    def search(self, query_text: str, limit: int = 5) -> list:
+    def search(self, query_text: str, limit: int = 5, query_filter: Filter = None) -> list:
         logger.info(f"Image searching with query: {query_text}")
         query_vector = self.text_encode(query_text)
 
         search_results = self.client.query_points(
             collection_name=self.collection_name,
             query=query_vector.tolist(),
-            limit=limit
+            limit=limit,
+            query_filter=query_filter
         ).points
-
 
         results = []
         for scored_point in search_results:
