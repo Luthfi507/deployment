@@ -1,0 +1,40 @@
+<div class="header">
+    <div>
+        <h1>Video Semantic Search &amp; Tracking Dashboard</h1>
+        <div class="subtitle">
+            Qdrant Multimodal Embedding Search + Object Tracking Analytics (<code>tests/walking.mp4</code>)
+        </div>
+    </div>
+    <div class="header-actions">
+        <span class="badge badge-accent">
+            <span class="dot-live"></span>
+            {% if mode == "search" %}Semantic Search Mode{% else %}Overview &amp; Browse Mode{% endif %}
+        </span>
+        <a class="badge" href="/api/health" target="_blank">Health JSON</a>
+        <a class="badge" href="/docs" target="_blank">API Docs</a>
+    </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="kpi-grid">
+    <div class="card">
+        <div class="kpi-label">Tracked Objects</div>
+        <div class="kpi-value">{{ stats.total_tracks }}</div>
+        <div class="kpi-sub">Indexed in Qdrant &amp; tracking.json</div>
+    </div>
+    <div class="card">
+        <div class="kpi-label">Frame Detections</div>
+        <div class="kpi-value">{{ stats.total_detections }}</div>
+        <div class="kpi-sub">Avg track duration {{ stats.avg_duration }}s</div>
+    </div>
+    <div class="card">
+        <div class="kpi-label">Object Classes</div>
+        <div class="kpi-value">{{ stats.unique_classes }}</div>
+        <div class="kpi-sub">Top class: {{ classes[0] if classes else "-" }}</div>
+    </div>
+    <div class="card">
+        <div class="kpi-label">Video Stream</div>
+        <div class="kpi-value">{{ "%.2f"|format(video_meta.duration) }}s</div>
+        <div class="kpi-sub">{{ video_meta.width }}&times;{{ video_meta.height }} @ {{ "%.2f"|format(video_meta.fps) }} FPS</div>
+    </div>
+</div>

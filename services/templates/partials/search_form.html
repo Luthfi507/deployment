@@ -1,0 +1,80 @@
+<!-- Search & Filter Form -->
+<div class="card search-card">
+    <form id="searchForm" method="GET" action="/">
+        <div class="search-row">
+            <div>
+                <label for="queryInput">Semantic Query (leave empty to browse tracks)</label>
+                <input
+                    id="queryInput"
+                    type="text"
+                    name="query"
+                    placeholder="e.g. person carrying a bag, red car, person wearing blue..."
+                    value="{{ query }}"
+                >
+            </div>
+            <div>
+                <label for="classSelect">Object Class</label>
+                <select id="classSelect" name="class_name">
+                    <option value="">All Classes</option>
+                    {% for cls in classes %}
+                    <option value="{{ cls }}" {% if class_name == cls %}selected{% endif %}>{{ cls }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="limitInput">Limit</label>
+                <input
+                    id="limitInput"
+                    type="number"
+                    name="limit"
+                    min="1"
+                    max="100"
+                    value="{{ limit }}"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="filter-row">
+            <div>
+                <label for="startInput">Start Time</label>
+                <input
+                    id="startInput"
+                    type="datetime-local"
+                    name="start"
+                    step="1"
+                    value="{{ start_filter }}"
+                >
+            </div>
+            <div>
+                <label for="endInput">End Time</label>
+                <input
+                    id="endInput"
+                    type="datetime-local"
+                    name="end"
+                    step="1"
+                    value="{{ end_filter }}"
+                >
+            </div>
+            <button type="submit">Search / Apply</button>
+            <a class="btn btn-secondary" href="/">Reset</a>
+        </div>
+    </form>
+
+    <div class="chips">
+        <span class="chips-label">Quick queries:</span>
+        <button type="button" class="chip" data-quick-query="person carrying a bag">person carrying a bag</button>
+        <button type="button" class="chip" data-quick-query="person wearing blue">person wearing blue</button>
+        <button type="button" class="chip" data-quick-query="car on the street">car on the street</button>
+        <button type="button" class="chip" data-quick-query="traffic light">traffic light</button>
+        <button type="button" class="chip" data-quick-query="backpack">backpack</button>
+    </div>
+</div>
+
+{% if search_error %}
+<div class="alert alert-danger">{{ search_error }}</div>
+{% endif %}
+
+{% if message %}
+<div class="alert alert-warning">{{ message }}</div>
+{% endif %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Semantic Search &amp; Tracking Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+<div class="container">
+    {% include "partials/header.html" %}
+    {% include "partials/search_form.html" %}
+    {% include "partials/player_analytics.html" %}
+    {% include "partials/results_gallery.html" %}
+</div>
+
+<script id="dashboard-config" type="application/json">
+{{ {
+    "stats": stats,
+    "results": results,
+    "videoMeta": video_meta,
+    "start": start,
+    "end": end
+} | tojson }}
+</script>
+<script src="/static/js/dashboard.js"></script>
+</body>
+
+</html>

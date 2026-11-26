@@ -1,0 +1,74 @@
+<!-- Main Split: Video Player + Analytics -->
+<div class="workspace-grid">
+
+    <!-- Video Player Card -->
+    <div class="card">
+        <div class="section-title">
+            <span>Video Segment Player &amp; BBox Overlay</span>
+            <span class="badge" id="activeTrackBadge">Aggregate Segment</span>
+        </div>
+
+        <div class="video-stage">
+            <video id="videoPlayer" controls preload="metadata">
+                <source src="{{ video_url }}" type="video/mp4">
+                Your browser does not support HTML video.
+            </video>
+            <canvas id="bboxOverlay"></canvas>
+        </div>
+
+        <div class="controls-bar">
+            <button type="button" id="playSegmentBtn">&#9654; Play Segment</button>
+            <button type="button" class="btn-secondary" id="playFullBtn">&#9654; Full Video</button>
+            <button type="button" class="btn-secondary" id="stopSegmentBtn">&#9632; Stop</button>
+
+            <label class="toggle-label">
+                <input type="checkbox" id="bboxToggle" checked>
+                Show BBox Overlay
+            </label>
+
+            <select id="speedSelect" class="speed-select">
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1.0x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2.0x</option>
+            </select>
+        </div>
+
+        <div class="segment-meta">
+            <div>
+                <div class="meta-label">Start Offset</div>
+                <div class="meta-val" id="startDisplay">-</div>
+            </div>
+            <div>
+                <div class="meta-label">End Offset</div>
+                <div class="meta-val" id="endDisplay">-</div>
+            </div>
+            <div>
+                <div class="meta-label">Duration</div>
+                <div class="meta-val" id="durationDisplay">-</div>
+            </div>
+            <div>
+                <div class="meta-label">Showing Results</div>
+                <div class="meta-val">{{ results | length }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Panel -->
+    <div class="analytics-stack">
+        <div class="card">
+            <div class="section-title">
+                <span>Activity Timeline (Click to Jump)</span>
+            </div>
+            <div class="timeline-bars" id="timelineChart"></div>
+        </div>
+
+        <div class="card">
+            <div class="section-title">
+                <span>Top Object Classes (Click to Filter)</span>
+            </div>
+            <div class="dist-list" id="classChart"></div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,68 @@
+<!-- Results Gallery -->
+<div class="card">
+    <div class="section-title">
+        <span>
+            {% if mode == "search" %}
+                Semantic Search Results ({{ results | length }})
+            {% else %}
+                Top Tracked Objects ({{ results | length }})
+            {% endif %}
+        </span>
+        <span class="subtitle">Click "Play Track" to jump to segment &amp; draw bounding box</span>
+    </div>
+
+    {% if results %}
+    <div class="results-grid">
+        {% for item in results %}
+        <div class="result-card" id="card-{{ item.id }}">
+            <div class="thumb-wrap">
+                <span class="id-pill">#{{ item.id }}</span>
+                {% if item.score is not none %}
+                <span class="score-pill">Score {{ "%.4f"|format(item.score) }}</span>
+                {% else %}
+                <span class="score-pill">Conf {{ "%.2f"|format(item.max_conf) }}</span>
+                {% endif %}
+
+                {% if item.image_url %}
+                <img src="{{ item.image_url }}" alt="{{ item.name }} #{{ item.id }}" loading="lazy">
+                {% else %}
+                <span class="subtitle">No preview</span>
+                {% endif %}
+            </div>
+            <div class="result-body">
+                <div class="result-title">
+                    <span>{{ item.name }}</span>
+                </div>
+                <div class="result-meta">
+                    Offset: <strong>{{ "%.2f"|format(item.offset_start) }}s &ndash; {{ "%.2f"|format(item.offset_end) }}s</strong> ({{ "%.2f"|format(item.duration) }}s)<br>
+                    Frames: {{ item.frame_count }} &middot; Conf: {{ "%.2f"|format(item.min_conf) }}&ndash;{{ "%.2f"|format(item.max_conf) }}
+                </div>
+                <div class="result-actions">
+                    <button type="button" class="btn-sm" data-play-track="{{ item.id }}">&#9654; Play Track</button>
+                    <button type="button" class="btn-sm btn-secondary" data-inspect-track="{{ item.id }}">Inspect</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="subtitle">No items to display. Try adjusting your search query or filters.</div>
+    {% endif %}
+</div>
+
+<!-- Track Detail Modal -->
+<div class="modal-backdrop" id="trackModal">
+    <div class="modal">
+        <div class="modal-header">
+            <strong id="modalTitle">Track Details</strong>
+            <button type="button" class="btn-sm btn-secondary" id="modalCloseBtn">Close</button>
+        </div>
+        <div class="modal-grid">
+            <img id="modalImage" class="modal-img" src="" alt="Track snapshot">
+            <div id="modalMeta" class="result-meta modal-meta-detail"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="modalPlayBtn">&#9654; Play Track in Player</button>
+        </div>
+    </div>
+</div>
