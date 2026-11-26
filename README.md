@@ -10,9 +10,13 @@ The pipeline is fully containerised with Docker Compose and runs in a Conda envi
 
 ---
 
+## Input Video
+- **Sample video:** `walking.mp4`
+- **Download:** [YouTube](https://youtu.be/YzcawvDGe4Y)
+
 ## Architecture Diagram
 ```text
-tests/walking.mp4 source: [youtube](https://youtu.be/YzcawvDGe4Y?si=raGZ-JDUof1b-3Xd)
+tests/walking.mp4
    │
    ▼  (1) Object Detection & Tracking [tracker.py]
 output/
@@ -114,11 +118,11 @@ python stored.py
 Make sure the `qdrant` container is running, then start the FastAPI server:
 ```bash
 conda activate vms
-uvicorn services.api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn services.api:app --host 0.0.0.0 --port 5296 --reload
 ```
 Open a browser:
-- **Dashboard UI** – `http://localhost:8000`
-- **OpenAPI (Swagger) Docs** – `http://localhost:8000/docs`
+- **Dashboard UI** – `http://localhost:5296`
+- **OpenAPI (Swagger) Docs** – `http://localhost:5296/docs`
 
 ### Main Features
 - **Overview & Browse Mode (`GET /`)** – KPI overview, activity timeline, top object classes, and a gallery of tracked objects.
@@ -157,9 +161,3 @@ All tests should pass (7/7).
 ---
 
 *This README was generated on 2026‑11‑26 and reflects the current state of the repository.*
-## Future Enhancements (optional)
-- Add a CI workflow to execute tests automatically on push.
-- Provide scripts to embed an entire dataset in bulk.
-- Extend the UI with custom visualizations.
-
----
