@@ -6,7 +6,6 @@ mlruns/
 *.pt
 *.onnx
 models/
-tests/
 output/
 
 # Byte-compiled / optimized / DLL files

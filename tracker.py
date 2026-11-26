@@ -1,6 +1,5 @@
 import os
 import time
-import mlflow
 import cv2
 from loguru import logger
 from collections import defaultdict
@@ -16,8 +15,6 @@ from config import CarDetection
 assert torch.cuda.is_available(), "CUDA is not available"
 logger.info(f"CUDA available: {torch.cuda.is_available()}")
 logger.info(f"GPU: {torch.cuda.get_device_name(0)}")
-
-mlflow.set_tracking_uri("http://localhost:5000")
 
 cfg = CarDetection()
 
